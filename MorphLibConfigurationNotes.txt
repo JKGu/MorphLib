@@ -1,0 +1,8 @@
+C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include
+
+C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\x64\vc12\lib
+
+CPUMorph.lib
+Pyramids.lib
+opencv_world300.lib
+opencv_ts300.lib

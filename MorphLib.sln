@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPUMorph", "MorphLib\MorphLib.vcxproj", "{FCA92705-A2BC-47B7-9F01-2C97390FCA16}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -39,8 +39,8 @@ Global
 		{9B550C62-6CD9-4411-8894-E1228AAA3A5D}.Release|Win32.Build.0 = Release|Win32
 		{9B550C62-6CD9-4411-8894-E1228AAA3A5D}.Release|x64.ActiveCfg = Release|x64
 		{9B550C62-6CD9-4411-8894-E1228AAA3A5D}.Release|x64.Build.0 = Release|x64
-		{4A91C513-3757-4147-8ED8-A791DB822372}.Debug|Win32.ActiveCfg = Debug|Win32
-		{4A91C513-3757-4147-8ED8-A791DB822372}.Debug|Win32.Build.0 = Debug|Win32
+		{4A91C513-3757-4147-8ED8-A791DB822372}.Debug|Win32.ActiveCfg = Debug|x64
+		{4A91C513-3757-4147-8ED8-A791DB822372}.Debug|Win32.Build.0 = Debug|x64
 		{4A91C513-3757-4147-8ED8-A791DB822372}.Debug|x64.ActiveCfg = Debug|x64
 		{4A91C513-3757-4147-8ED8-A791DB822372}.Debug|x64.Build.0 = Debug|x64
 		{4A91C513-3757-4147-8ED8-A791DB822372}.Release|Win32.ActiveCfg = Release|Win32
