@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
     //render an intermediate morph image
     if (1) {
-        float alpha = 0.5f; // 0.f==image0, 1.f==image1
+        float alpha = 0.f; // 0.f==image0, 1.f==image1
         cv::Mat image(vectors.rows, vectors.cols, CV_8UC3);
 #pragma omp parallel for
         for (int y = 0; y < image.rows; y++)

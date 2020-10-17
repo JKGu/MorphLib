@@ -1,0 +1,17 @@
+﻿Build started 10/12/2020 4:26:22 PM.
+     1>Project "C:\Users\steve\Desktop\Shodor\project\MorphLib\MorphLib\MorphLib.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Morph.cpp Pyramid.cpp
+         Morph.cpp
+         Pyramid.cpp
+     1>Pyramid.cpp(17): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\steve\Desktop\Shodor\project\MorphLib\Release\CPUMorph.lib" /NOLOGO /LTCG Release\Morph.obj
+         Release\Pyramid.obj
+         MorphLib.vcxproj -> C:\Users\steve\Desktop\Shodor\project\MorphLib\Release\CPUMorph.lib
+     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\MorphLib\MorphLib\MorphLib.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:39.07

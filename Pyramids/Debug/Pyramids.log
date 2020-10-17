@@ -1,0 +1,27 @@
+﻿Build started 10/12/2020 4:25:42 PM.
+     1>Project "C:\Users\steve\Desktop\Shodor\project\MorphLib\Pyramids\Pyramids.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt chronos.cpp discrete.cpp dlti.cpp image.cpp scale.cpp util.cpp
+         util.cpp
+         scale.cpp
+         image.cpp
+         dlti.cpp
+         discrete.cpp
+         chronos.cpp
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt error.c
+         error.c
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\steve\Desktop\Shodor\project\MorphLib\Debug\Pyramids.lib" /NOLOGO Debug\chronos.obj
+         Debug\discrete.obj
+         Debug\dlti.obj
+         Debug\error.obj
+         Debug\image.obj
+         Debug\scale.obj
+         Debug\util.obj
+         Pyramids.vcxproj -> C:\Users\steve\Desktop\Shodor\project\MorphLib\Debug\Pyramids.lib
+     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\MorphLib\Pyramids\Pyramids.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.98
