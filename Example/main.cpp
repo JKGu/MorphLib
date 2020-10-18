@@ -52,11 +52,11 @@ int main(int argc, char *argv[])
 	//It is assumed that all required files are present and valid. 
 
 	//Check if record.txt already exists. If not, that means working on a new project.
-	ifstream frecord("tmp/record.txt");
+	ifstream frecord("../UserFiles/tmp/record.txt");
 	if (frecord.fail()){
 		cout << "Starting a new project. Loading images from InputImages folder...\n";
 		ofstream fout;
-		fout.open("tmp/record.txt");
+		fout.open("../UserFiles/tmp/record.txt");
 		fout << "0";
 		fout.close();
 
@@ -65,9 +65,9 @@ int main(int argc, char *argv[])
 		glob("../UserFiles/InputImages/*.png", finput);
 		for (size_t i = 0; i < finput.size(); i++){
 			Mat movtmp = imread(finput[i]);
-			imwrite("tmp/tmp0/" + finput[i].substr(24), movtmp);
+			imwrite("../UserFiles/tmp/tmp0/" + finput[i].substr(24), movtmp);
 		}
-		cout << finput.size() <<" images loaded.\n";
+		cout << finput.size() << " images loaded.\n";
 
 	}
 	else{
@@ -78,21 +78,21 @@ int main(int argc, char *argv[])
 	//Keep morphing images until 1 image left
 	cout << "Morphing Images...\n";
 	while (true){
-
+		
 		//Identify the tempory source and target folder for images
 		//Source and target folder are recorded so that morphing can be resumed in case of interruption
 		String tmpSource;
 		String tmpTarget;
-		std::ifstream recordfile("tmp/record.txt");
+		std::ifstream recordfile("../UserFiles/tmp/record.txt");
 		std::string folderptr;
 		std::getline(recordfile, folderptr);
 		if (folderptr.compare("0") == 0){
-			tmpSource = "tmp/tmp0";
-			tmpTarget = "tmp/tmp1";
+			tmpSource = "../UserFiles/tmp/tmp0";
+			tmpTarget = "../UserFiles/tmp/tmp1";
 		}
 		else{
-			tmpSource = "tmp/tmp1";
-			tmpTarget = "tmp/tmp0";
+			tmpSource = "../UserFiles/tmp/tmp1";
+			tmpTarget = "../UserFiles/tmp/tmp0";
 		}
 		recordfile.close();
 
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 			for (size_t i = 0; i < fn2.size(); i++){
 				remove(fn2[i].c_str());
 			}
-			remove("tmp/record.txt");
+			remove("../UserFiles/tmp/record.txt");
 			cout << "Project is complete.\n";
 			break;
 		}
@@ -178,18 +178,23 @@ int main(int argc, char *argv[])
 						params.ui_points.push_back(CP(Vector2f(0.373051f, 0.620267f), Vector2f(0.339644f, 0.586860f)));
 					}
 				}
+				cout << ".----\n";
 				//run the matching algorithm
 				MorphLib::CMorph morph(params);
+				cout << ".\n";
 				float* vx = new float[params.w*params.h];
 				float* vy = new float[params.w*params.h];
 				float* ssim_error = new float[params.w*params.h];
+				cout << ".\n";
 				morph.calculate_halfway_parametrization(vx, vy, ssim_error);
+				cout << ".\n";
 				for (int y = 0; y < params.h; y++)
 				for (int x = 0; x < params.w; x++) {
 					int index = y*params.w + x;
 					vectors.at<Vec2f>(y, x) = Vec2f(vx[index], vy[index]);
+					cout << "-\n";
 				}
-
+				cout << ".\n";
 				delete[] vx;
 				delete[] vy;
 			}
@@ -203,7 +208,7 @@ int main(int argc, char *argv[])
 			}
 			}
 			*/
-
+			cout << ".###\n";
 			//render an intermediate morph image
 			if (1) {
 				float alpha = 0.5f; // 0.f==image0, 1.f==image1
@@ -239,7 +244,7 @@ int main(int argc, char *argv[])
 
 		//Swap folder
 		ofstream fout;
-		fout.open("tmp/tmp.txt");
+		fout.open("../UserFiles/tmp/tmp.txt");
 		if (folderptr.compare("0") == 0){
 			fout << "1";
 		}
@@ -247,7 +252,7 @@ int main(int argc, char *argv[])
 			fout << "0";
 		}
 		fout.close();
-		remove("tmp/record.txt");
-		rename("tmp/tmp.txt", "tmp/record.txt");
+		remove("../UserFiles/tmp/record.txt");
+		rename("../UserFiles/tmp/tmp.txt", "../UserFiles/tmp/record.txt");
 	}
 }

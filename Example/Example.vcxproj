@@ -142,7 +142,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <!--AdditionalDependencies>CPUMorph.lib;Pyramids.lib;opencv_highgui300.lib;opencv_imgproc300.lib;opencv_core300.lib;opencv_imgcodecs300.lib;%(AdditionalDependencies)</AdditionalDependencies-->
-      <AdditionalDependencies>CPUMorph.lib;Pyramids.lib</AdditionalDependencies>
+      <AdditionalDependencies>CPUMorph.lib;Pyramids.lib;opencv_world300.lib;opencv_ts300.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <SubSystem>
       </SubSystem>
