@@ -31,7 +31,7 @@ It reads images from UserFiles/InputImages and UserFiles/Masks, and produces an 
 
 Given N images, the time complexity is O(N) and space complexity is O(1). Assuming the alpha is linear, main.cpp will always produce an accurate "average" result.
 
-There is a ready-to-use x64 exectuable release in the x64/release folder.
+There is a ready-to-use x64 exectuable release in the release folder.
 
 Limitations: it assumes that all inputs are valid and the working directory is correctly set. It does not do much handling error exceptions.
 
