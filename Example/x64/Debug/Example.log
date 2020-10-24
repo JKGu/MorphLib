@@ -1,0 +1,18 @@
+﻿Build started 10/24/2020 4:45:15 PM.
+     1>Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Example\Example.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include" /Zi /nologo /W3 /WX- /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+     1>C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include\opencv2/core/mat.hpp(1965): warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+     1>C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include\opencv2/core/persistence.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+     1>C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include\opencv2/core/utility.hpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+     1>main.cpp(53): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+     1>main.cpp(54): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\Example.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\x64\vc12\lib" CPUMorph.lib Pyramids.lib opencv_world300d.lib opencv_ts300d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\Example.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\Example.lib" /MACHINE:X64 x64\Debug\main.obj
+         Example.vcxproj -> C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\Example.exe
+     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Example\Example.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.22

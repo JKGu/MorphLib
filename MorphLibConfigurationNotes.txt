@@ -1,6 +1,6 @@
-C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include
+opencv-3.0.0\build\install\include
 
-C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\x64\vc12\lib
+opencv-3.0.0\build\install\x64\vc12\lib
 
 CPUMorph.lib
 Pyramids.lib

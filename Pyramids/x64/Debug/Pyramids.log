@@ -1,0 +1,27 @@
+﻿Build started 10/24/2020 4:45:02 PM.
+     1>Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Pyramids\Pyramids.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt chronos.cpp discrete.cpp dlti.cpp image.cpp scale.cpp util.cpp
+         util.cpp
+         scale.cpp
+         image.cpp
+         dlti.cpp
+         discrete.cpp
+         chronos.cpp
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TC /errorReport:prompt error.c
+         error.c
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\Pyramids.lib" /NOLOGO /MACHINE:X64 x64\Debug\chronos.obj
+         x64\Debug\discrete.obj
+         x64\Debug\dlti.obj
+         x64\Debug\error.obj
+         x64\Debug\image.obj
+         x64\Debug\scale.obj
+         x64\Debug\util.obj
+         Pyramids.vcxproj -> C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\Pyramids.lib
+     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Pyramids\Pyramids.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.00

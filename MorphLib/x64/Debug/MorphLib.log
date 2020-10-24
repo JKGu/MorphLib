@@ -1,0 +1,16 @@
+﻿Build started 10/24/2020 4:45:04 PM.
+     1>Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\MorphLib\MorphLib.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt Morph.cpp Pyramid.cpp
+         Pyramid.cpp
+         Morph.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\CPUMorph.lib" /NOLOGO /MACHINE:X64 x64\Debug\Morph.obj
+         x64\Debug\Pyramid.obj
+         MorphLib.vcxproj -> C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Debug\CPUMorph.lib
+     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\MorphLib\MorphLib.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.41
