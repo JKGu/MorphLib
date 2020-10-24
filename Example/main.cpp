@@ -2,7 +2,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>  
 using namespace cv;
-
+#include <sstream> 
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -46,207 +46,163 @@ T_out BilinearGetColor_clamp(cv::Mat& img, float px, float py)//clamp for outsid
 		value[0][0] * (1 - u)*(1 - v) + value[0][1] * (1 - u)*v + value[1][0] * u*(1 - v) + value[1][1] * u*v;
 }
 
+int getPngIndex(string s)
+{
+	int ret = 0;
+	std::string::size_type i = 0;
+	int x = s.size() - 1;
+	int y = s.size() - 1;
+	while (x >= 0 && s[x] != '.'){
+		x--;
+	}
+	y = x-1;
+	while (y >= 0 && s[y] >= '0' && s[y] <= '9'){
+		y--;
+	}
+	stringstream(s.substr(y + 1, x - y - 1)) >> ret;
+	return ret;
+}
+
+void morphTwoImages(Mat image0, Mat image1, Mat mask0, Mat mask1, float alpha, string outputpath){
+	//compute the halfway parameterization vectors
+	Mat vectors(image0.rows, image0.cols, CV_32FC2); {
+		// Convert BGRA OpenCV image to RGB array
+		auto convert = [](const Mat& mat) -> unique_ptr<unsigned char[]> {
+			auto ar = make_unique<unsigned char[]>(mat.rows*mat.cols * 3); // RGB
+			for (int y = 0; y < mat.rows; y++)
+			for (int x = 0; x < mat.cols; x++) {
+				int index = y*mat.cols + x;
+				Vec3b color = mat.at<Vec3b>(y, x); // BGRA
+				ar[index * 3 + 0] = color[2];
+				ar[index * 3 + 1] = color[1];
+				ar[index * 3 + 2] = color[0];
+			}
+			return ar;
+		};
+		auto ar_image0 = convert(image0);
+		auto ar_image1 = convert(image1);
+		auto ar_mask0 = convert(mask0);
+		auto ar_mask1 = convert(mask1);
+
+		//set parameters
+		MorphLib::CParameters params; {
+			params.w = image0.cols;
+			params.h = image0.rows;
+			params.image0 = ar_image0.get();
+			params.image1 = ar_image1.get();
+			params.mask0 = ar_mask0.get();
+			params.mask1 = ar_mask1.get();
+			if (1) { // introduce correspondence constraints
+				using CP = MorphLib::ConstraintPoint;
+				using MorphLib::Vector2f;
+				params.ui_points.push_back(CP(Vector2f(0.273438f, 0.643973f), Vector2f(0.237832f, 0.686947f)));
+				params.ui_points.push_back(CP(Vector2f(0.657366f, 0.561384f), Vector2f(0.627212f, 0.448009f)));
+				params.ui_points.push_back(CP(Vector2f(0.791295f, 0.641741f), Vector2f(0.755531f, 0.625000f)));
+				params.ui_points.push_back(CP(Vector2f(0.768973f, 0.757812f), Vector2f(0.722345f, 0.790929f)));
+				params.ui_points.push_back(CP(Vector2f(0.309152f, 0.989955f), Vector2f(0.308628f, 0.990044f)));
+				params.ui_points.push_back(CP(Vector2f(0.775442f, 0.994469f), Vector2f(0.775442f, 0.994469f)));
+				params.ui_points.push_back(CP(Vector2f(0.373051f, 0.620267f), Vector2f(0.339644f, 0.586860f)));
+			}
+		}
+		//run the matching algorithm
+		MorphLib::CMorph morph(params);
+		float* vx = new float[params.w*params.h];
+		float* vy = new float[params.w*params.h];
+		float* ssim_error = new float[params.w*params.h];
+		morph.calculate_halfway_parametrization(vx, vy, ssim_error);
+		cout << ".\n";
+		for (int y = 0; y < params.h; y++)
+		for (int x = 0; x < params.w; x++) {
+			int index = y*params.w + x;
+			vectors.at<Vec2f>(y, x) = Vec2f(vx[index], vy[index]);
+		}
+		delete[] vx;
+		delete[] vy;
+	}
+	if (1) {
+		cv::Mat image(vectors.rows, vectors.cols, CV_8UC3);
+#pragma omp parallel for
+		for (int y = 0; y < image.rows; y++)
+		for (int x = 0; x < image.cols; x++) {
+			Vec2f q{ float(x), float(y) };
+			Vec2f p = q;
+			Vec2f v = vectors.at<Vec2f>(int(p[1]), int(p[0]));
+			const float fa = 0.8f; // dampening factor
+
+			for (int i = 0; i < 20; i++) {
+				p = q - (2.f * alpha - 1.f)*v;
+				Vec2f new_v = BilinearGetColor_clamp<Vec2f, Vec2f>(vectors, p[0], p[1]);
+				if (v == new_v)
+					break;
+				v = fa*new_v + (1.f - fa)*v;
+			}
+
+			Vec3f color0 = BilinearGetColor_clamp<Vec3b, Vec3f>(image0, p[0] - v[0], p[1] - v[1]);
+			Vec3f color1 = BilinearGetColor_clamp<Vec3b, Vec3f>(image1, p[0] + v[0], p[1] + v[1]);
+
+			image.at<Vec3b>(y, x) = color0*(1.0f - alpha) + color1*alpha;
+
+		}
+		imwrite(outputpath, image);
+	}
+}
+
+
 
 int main(int argc, char *argv[])
 {
 	//It is assumed that all required files are present and valid. 
+	
 
-	//Check if record.txt already exists. If not, that means working on a new project.
-	ifstream frecord("../UserFiles/tmp/record.txt");
-	if (frecord.fail()){
-		cout << "Starting a new project. Loading images from InputImages folder...\n";
-		ofstream fout;
-		fout.open("../UserFiles/tmp/record.txt");
-		fout << "0";
-		fout.close();
-
-		//Import images from input folder
-		vector<String> finput;
-		glob("../UserFiles/InputImages/*.png", finput);
-		for (size_t i = 0; i < finput.size(); i++){
-			Mat movtmp = imread(finput[i]);
-			imwrite("../UserFiles/tmp/tmp0/" + finput[i].substr(24), movtmp);
-		}
-		cout << finput.size() << " images loaded.\n";
-
+	//Load input images
+	vector<String> finput;
+	glob("./UserFiles/InputImages/*.png", finput);
+	Mat mask0 = imread("./UserFiles/Masks/mask.png");
+	Mat mask1 = imread("./UserFiles/Masks/mask.png");
+	if (finput.size() == 0){
+		cout << "No images in the InputImages folder.\n";
+		exit(0);
 	}
-	else{
+	
+	//Check if working on an existing project or new
+	String imagesPath = "./UserFiles/OutputImages/*.png";
+	vector<String> fn;
+	glob(imagesPath, fn);
+	String fout;
+	if (fn.size() == 0){//new
+		cout << "Starting a new project...\n";
+		Mat movtmp = imread(finput[0]);
+		imwrite("./UserFiles/OutputImages/temp0.png", movtmp);
+		fout = "./UserFiles/OutputImages/temp0.png";
+	}
+	else if (finput[0].substr(fn[0].length() - 10).compare("output.png")){//output.png exists
+		cout << "output.png detected in OutputImages file. Overwriting with a new project.\n";
+		remove(fn[0].c_str());
+		Mat movtmp = imread(finput[0]);
+		imwrite("./UserFiles/OutputImages/temp0.png", movtmp);
+		fout = "./UserFiles/OutputImages/temp0.png";
+	}
+	else{//other temp files, resume
 		cout << "Unfinished project detected. Resuming from the last check point...\n";
+		fout = fn[0];
 	}
-	frecord.close();
+	
+	int index = getPngIndex(fout)+1; //index of the "new image" to be morphed
 
-	//Keep morphing images until 1 image left
-	cout << "Morphing Images...\n";
-	while (true){
-		
-		//Identify the tempory source and target folder for images
-		//Source and target folder are recorded so that morphing can be resumed in case of interruption
-		String tmpSource;
-		String tmpTarget;
-		std::ifstream recordfile("../UserFiles/tmp/record.txt");
-		std::string folderptr;
-		std::getline(recordfile, folderptr);
-		if (folderptr.compare("0") == 0){
-			tmpSource = "../UserFiles/tmp/tmp0";
-			tmpTarget = "../UserFiles/tmp/tmp1";
-		}
-		else{
-			tmpSource = "../UserFiles/tmp/tmp1";
-			tmpTarget = "../UserFiles/tmp/tmp0";
-		}
-		recordfile.close();
-
-		//Keep track of all images in the source folder
-		String imagesPath = tmpSource + "/*.png";
-		vector<String> fn;
-		glob(imagesPath, fn);
-		int imgNum = fn.size();
-
-		//Handle insufficient images
-		if (imgNum <= 1){
-			//If there is only 1: Morphing is completed, the result image will be outputed.
-			if (imgNum == 1){
-				Mat imgOutput = imread(fn[0]);
-				imwrite("../UserFiles/OutputImages/output.png", imgOutput);
-				cout << "Processing complete. Result located at OutputImages folder.\n";
-			}
-			else{
-				cout << "No ouput images generated.";
-			}
-			//Clean up tmp folders
-			String imagesPath2 = tmpTarget + "/*.png";
-			vector<String> fn2;
-			glob(imagesPath2, fn2);
-			for (size_t i = 0; i < imgNum; i++){
-				remove(fn[i].c_str());
-			}
-			for (size_t i = 0; i < fn2.size(); i++){
-				remove(fn2[i].c_str());
-			}
-			remove("../UserFiles/tmp/record.txt");
-			cout << "Project is complete.\n";
-			break;
-		}
-		//Morph images
-		for (size_t i = 0; i < imgNum; i += 2)
-		{
-			//load two images
-			cout << fn[i] + "\n";
-			cout << fn[i + 1] + "\n";
-			Mat image0 = imread(fn[i]);
-			Mat image1 = imread(fn[i + 1]);
-			Mat mask0 = imread("../UserFiles/Masks/mask.png");
-			Mat mask1 = imread("../UserFiles/Masks/mask.png");
-
-			//compute the halfway parameterization vectors
-			Mat vectors(image0.rows, image0.cols, CV_32FC2); {
-				// Convert BGRA OpenCV image to RGB array
-				auto convert = [](const Mat& mat) -> unique_ptr<unsigned char[]> {
-					auto ar = make_unique<unsigned char[]>(mat.rows*mat.cols * 3); // RGB
-					for (int y = 0; y < mat.rows; y++)
-					for (int x = 0; x < mat.cols; x++) {
-						int index = y*mat.cols + x;
-						Vec3b color = mat.at<Vec3b>(y, x); // BGRA
-						ar[index * 3 + 0] = color[2];
-						ar[index * 3 + 1] = color[1];
-						ar[index * 3 + 2] = color[0];
-					}
-					return ar;
-				};
-				auto ar_image0 = convert(image0);
-				auto ar_image1 = convert(image1);
-				auto ar_mask0 = convert(mask0);
-				auto ar_mask1 = convert(mask1);
-
-				//set parameters
-				MorphLib::CParameters params; {
-					params.w = image0.cols;
-					params.h = image0.rows;
-					params.image0 = ar_image0.get();
-					params.image1 = ar_image1.get();
-					params.mask0 = ar_mask0.get();
-					params.mask1 = ar_mask1.get();
-					if (1) { // introduce correspondence constraints
-						using CP = MorphLib::ConstraintPoint;
-						using MorphLib::Vector2f;
-						params.ui_points.push_back(CP(Vector2f(0.273438f, 0.643973f), Vector2f(0.237832f, 0.686947f)));
-						params.ui_points.push_back(CP(Vector2f(0.657366f, 0.561384f), Vector2f(0.627212f, 0.448009f)));
-						params.ui_points.push_back(CP(Vector2f(0.791295f, 0.641741f), Vector2f(0.755531f, 0.625000f)));
-						params.ui_points.push_back(CP(Vector2f(0.768973f, 0.757812f), Vector2f(0.722345f, 0.790929f)));
-						params.ui_points.push_back(CP(Vector2f(0.309152f, 0.989955f), Vector2f(0.308628f, 0.990044f)));
-						params.ui_points.push_back(CP(Vector2f(0.775442f, 0.994469f), Vector2f(0.775442f, 0.994469f)));
-						params.ui_points.push_back(CP(Vector2f(0.373051f, 0.620267f), Vector2f(0.339644f, 0.586860f)));
-					}
-				}
-				//run the matching algorithm
-				MorphLib::CMorph morph(params);
-				float* vx = new float[params.w*params.h];
-				float* vy = new float[params.w*params.h];
-				float* ssim_error = new float[params.w*params.h];
-				morph.calculate_halfway_parametrization(vx, vy, ssim_error);
-				cout << ".\n";
-				for (int y = 0; y < params.h; y++)
-				for (int x = 0; x < params.w; x++) {
-					int index = y*params.w + x;
-					vectors.at<Vec2f>(y, x) = Vec2f(vx[index], vy[index]);
-				}
-				delete[] vx;
-				delete[] vy;
-			}
-			/*
-			//save the halfway parameterization vectors
-			if (1) {
-			ofstream file("./InputImages/vector.txt");
-			for (int y = 0; y < vectors.rows; y++)
-			for (int x = 0; x < vectors.cols; x++) {
-			file << vectors.at<Vec2f>(y, x)[0] << " " << vectors.at<Vec2f>(y, x)[1] << endl;
-			}
-			}
-			*/
-			//render an intermediate morph image
-			if (1) {
-				float alpha = 0.5f; // 0.f==image0, 1.f==image1
-				cv::Mat image(vectors.rows, vectors.cols, CV_8UC3);
-#pragma omp parallel for
-				for (int y = 0; y < image.rows; y++)
-				for (int x = 0; x < image.cols; x++) {
-					Vec2f q{ float(x), float(y) };
-					Vec2f p = q;
-					Vec2f v = vectors.at<Vec2f>(int(p[1]), int(p[0]));
-					const float fa = 0.8f; // dampening factor
-
-					for (int i = 0; i < 20; i++) {
-						p = q - (2.f * alpha - 1.f)*v;
-						Vec2f new_v = BilinearGetColor_clamp<Vec2f, Vec2f>(vectors, p[0], p[1]);
-						if (v == new_v)
-							break;
-						v = fa*new_v + (1.f - fa)*v;
-					}
-
-					Vec3f color0 = BilinearGetColor_clamp<Vec3b, Vec3f>(image0, p[0] - v[0], p[1] - v[1]);
-					Vec3f color1 = BilinearGetColor_clamp<Vec3b, Vec3f>(image1, p[0] + v[0], p[1] + v[1]);
-
-					image.at<Vec3b>(y, x) = color0*(1.0f - alpha) + color1*alpha;
-
-				}
-
-				imwrite(tmpTarget + "/" + std::to_string(i) + ".png", image);
-				remove(fn[i].c_str());
-				remove(fn[i + 1].c_str());
-			}
-		}
-
-		//Swap folder
-		ofstream fout;
-		fout.open("../UserFiles/tmp/tmp.txt");
-		if (folderptr.compare("0") == 0){
-			fout << "1";
-		}
-		else{
-			fout << "0";
-		}
-		fout.close();
-		remove("../UserFiles/tmp/record.txt");
-		rename("../UserFiles/tmp/tmp.txt", "../UserFiles/tmp/record.txt");
+	while (index < finput.size()){
+		Mat image0 = imread(fout);
+		Mat image1 = imread(finput[index]);
+		float alpha = float(index) / float(index+1);
+		string newpath = "./UserFiles/OutputImages/temp" + std::to_string(index) + ".png";
+		cout << "Morphing "+fout+" and "+finput[index]+" with alpha=";
+		cout << alpha;
+		cout << "...\n";
+		morphTwoImages(image0, image1, mask0, mask1, alpha, newpath);
+		remove(fout.c_str());
+		fout = newpath;
+		index++;
 	}
+	rename(fout.c_str(), "./UserFiles/OutputImages/output.png");
+	cout << "Morphing completed!";
+	cin.get();
 }
