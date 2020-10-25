@@ -204,5 +204,4 @@ int main(int argc, char *argv[])
 	}
 	rename(fout.c_str(), "./UserFiles/OutputImages/output.png");
 	cout << "Morphing completed!";
-	cin.get();
 }
