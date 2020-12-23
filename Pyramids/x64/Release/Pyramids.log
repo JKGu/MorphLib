@@ -1,27 +1,9 @@
-﻿Build started 10/25/2020 12:02:53 AM.
-     1>Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Pyramids\Pyramids.vcxproj" on node 2 (Rebuild target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob2 /Oi /Ot /Oy /GT /D _MBCS /Gm- /EHsc /MD /GS /Gy /Qpar /fp:fast /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt chronos.cpp discrete.cpp dlti.cpp image.cpp scale.cpp util.cpp
-         chronos.cpp
-         discrete.cpp
-         dlti.cpp
-         image.cpp
-         scale.cpp
-         util.cpp
-         Generating Code...
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob2 /Oi /Ot /Oy /GT /D _MBCS /Gm- /EHsc /MD /GS /Gy /Qpar /fp:fast /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TC /errorReport:prompt error.c
-         error.c
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Pyramids.lib" /NOLOGO /MACHINE:X64 /LTCG x64\Release\chronos.obj
-         x64\Release\discrete.obj
-         x64\Release\dlti.obj
-         x64\Release\error.obj
-         x64\Release\image.obj
-         x64\Release\scale.obj
-         x64\Release\util.obj
-         Pyramids.vcxproj -> C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Pyramids.lib
-     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Pyramids\Pyramids.vcxproj" (Rebuild target(s)).
+﻿Build started 11/29/2020 6:11:30 PM.
+     1>Project "D:\Shodor\project\xray\Modules\Morphing\MorphLib\Pyramids\Pyramids.vcxproj" on node 2 (Build target(s)).
+     1>Lib:
+         Pyramids.vcxproj -> D:\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Pyramids.lib
+     1>Done Building Project "D:\Shodor\project\xray\Modules\Morphing\MorphLib\Pyramids\Pyramids.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.98
+Time Elapsed 00:00:02.47

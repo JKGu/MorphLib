@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
 	while (index < finput.size()){
 		Mat image0 = imread(fout);
 		Mat image1 = imread(finput[index]);
-		float alpha = float(index) / float(index+1);
+		float alpha = 1 - float(index) / float(index+1);
 		string newpath = "./UserFiles/OutputImages/temp" + std::to_string(index) + ".png";
 		cout << "Morphing "+fout+" and "+finput[index]+" with alpha=";
 		cout << alpha;

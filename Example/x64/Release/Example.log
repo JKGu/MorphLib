@@ -1,5 +1,5 @@
-﻿Build started 10/25/2020 12:03:39 AM.
-     1>Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Example\Example.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 11/29/2020 6:11:49 PM.
+     1>Project "D:\Shodor\project\xray\Modules\Morphing\MorphLib\Example\Example.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\include" /Zi /nologo /W3 /WX- /O2 /Ob2 /Oi /Ot /Oy /GT /D _MBCS /Gm- /EHsc /MD /GS /Gy /Qpar /fp:fast /Zc:wchar_t /Zc:forScope /openmp /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt main.cpp
          main.cpp
@@ -9,10 +9,10 @@
      1>main.cpp(53): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
      1>main.cpp(54): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.exe" /NOLOGO /LIBPATH:"C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\x64\vc12\lib" CPUMorph.lib Pyramids.lib opencv_world300.lib opencv_ts300.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.pdb" /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.lib" /MACHINE:X64 x64\Release\main.obj
-         Example.vcxproj -> C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.exe
-     1>Done Building Project "C:\Users\steve\Desktop\Shodor\project\xray\Modules\Morphing\MorphLib\Example\Example.vcxproj" (Rebuild target(s)).
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.exe" /NOLOGO /LIBPATH:"C:\Softwares\opencv-3.0.0\opencv-3.0.0\build\install\x64\vc12\lib" CPUMorph.lib Pyramids.lib opencv_world300.lib opencv_ts300.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.pdb" /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.lib" /MACHINE:X64 x64\Release\main.obj
+         Example.vcxproj -> D:\Shodor\project\xray\Modules\Morphing\MorphLib\x64\Release\Example.exe
+     1>Done Building Project "D:\Shodor\project\xray\Modules\Morphing\MorphLib\Example\Example.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.58
+Time Elapsed 00:00:26.40
